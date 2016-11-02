@@ -6,6 +6,7 @@ from time import sleep
 from datetime import date
 
 print "test on cr.2 branch"
+print "Code2 Change On cr.2 Branch"
 
 os.system('clear')
 
