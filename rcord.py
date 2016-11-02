@@ -22,34 +22,32 @@ def setsudo():
 
     print ""
     print "Setting up Head Node for password-less sudo access..."
-    print "Checking %s...\n" % sudovar
+    print "Checking for %s...\n" % sudovar
     sleep(3.0)
 
     if os.path.isfile("%s" % sudovar) and os.access("%s" % sudovar, os.R_OK):
-        print "File %s exist and accessible" % sudovar
-        print "Backing up %s..." % sudovar
-        copyfile("%s" % sudovar, "%s" % sudovar + getdate())
+        print "%s is accessible..." % sudovar
 
-
-
-    for line in readsudo:
-        if '%s' % sudopattern in line:
-            found = "True"
-            print "%s already set. Nothing to do...\n" % sudovar
-            sudofile.close()
+        for line in readsudo:
+            if '%s' % sudopattern in line:
+                found = "True"
+                print "Sudo parameters already set. Nothing to do...\n"
+                sudofile.close()
+    else:
+        print "Failed to change %s" % sudovar
+        raise SystemExit
 
     if not found:
-        print "Creating sudo entry in %s..." % sudovar
+        print "Backing up %s...\n" % sudovar
+        copyfile("%s" % sudovar, "%s" % sudovar + getdate())
+        print "Creating sudo entry..."
         with open('%s' % sudovar, 'a') as f:
             f.write('%s\n' % sudopattern)
             f.close()
         p = subprocess.Popen(["service", "sudo", "restart"], stdout=subprocess.PIPE)
         output, err = p.communicate()
-        print"Restarted sudo service...\n", output
+        print"Restarting sudo service...\n", output
 
 
 if __name__ == "__main__":
     setsudo()
-
-
-
