@@ -1,9 +1,16 @@
 import os
-import shutil
+import os.path
 import subprocess
+from shutil import copyfile
 from time import sleep
+from datetime import date
 
 os.system('clear')
+
+def getdate():
+    now = date.today()
+    full = "." + str(now.month) + "." + str(now.day) + "." + str(now.year)
+    return full
 
 def setsudo():
 
@@ -17,6 +24,14 @@ def setsudo():
     print "Setting up Head Node for password-less sudo access..."
     print "Checking %s...\n" % sudovar
     sleep(3.0)
+
+    if os.path.isfile("%s" % sudovar) and os.access("%s" % sudovar, os.R_OK):
+        print "File %s exist and accessible" % sudovar
+        print "Backing up %s..." % sudovar
+        copyfile("%s" % sudovar, "%s" % sudovar + getdate())
+
+
+
     for line in readsudo:
         if '%s' % sudopattern in line:
             found = "True"
