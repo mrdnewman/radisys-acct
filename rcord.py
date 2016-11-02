@@ -5,6 +5,8 @@ from shutil import copyfile
 from time import sleep
 from datetime import date
 
+print "test on cr.2 branch"
+
 os.system('clear')
 
 def getdate():
