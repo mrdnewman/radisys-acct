@@ -20,13 +20,6 @@ def opened_w_error(filename, mode="r"):
         finally:
             f.close()
 
-
-#with opened_w_error("/etc/passwd", "a") as (f, err):
-#    if err:
-#       print "IOError:", err
-#    else:
-#        f.write("guido::0:0::/:/bin/sh\n")
-
 def applydate():
     now = date.today()
     full = "." + str(now.month) + "." + str(now.day) + "." + str(now.year)
@@ -81,26 +74,28 @@ def setsudo():
             print "OK\n"
 
         print "Creating sudo entry..."
-        with open('%s' % sudovar, 'a') as f:
-                f.write('%s\n' % sudopattern)
-                f.close()
         try:
-            p = subprocess.Popen(["service", "sudo", "restart"], stdout=subprocess.PIPE)
-            output, err = p.communicate()
-            print"Restarting sudo service...", output
-        except EnvironmentError:
-            print "Couldn't restart service -- please look into this!"
+            f = open('%s' % sudovar, 'a')
+        except IOError:
+            print "Failed sudo entry, cannot continue..."
+            print "Change file manually and re-execute program..."
+            raise SystemExit
+        else:
+            f.write("%s" % sudopattern)
+            f.close()
+            print "OK\n"
+
+        print "Restarting sudo service..."
+        try:
+            subprocess.check_output(["service", "ssh", "restart"])
+        except subprocess.CalledProcessError as e:
+            print e.output
+            print "Failed service restart. Restart service manually, re-execute script...\n"
             raise SystemExit
         else:
             print "OK\n"
 
 
-
-
 if __name__ == "__main__":
     get_oslevel()
     setsudo()
-
-
-
-
