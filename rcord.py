@@ -51,15 +51,22 @@ def setsudo():
                     print "Sudo parameters already set. Nothing to do...\n"
                     sudofile.close()
     else:
-        print "Failed to change %s" % sudovar
-        raise SystemExit
+        print "Unable to access %s" % sudovar
+        raise Ex
 
     if not found:
         print "Backing up %s...\n" % sudovar
-        copyfile("%s" % sudovar, "%s" % sudovar + applydate())
+        try:
+            copyfile("%s" % sudovar, "%s" % sudovar + applydate())
+        except EnvironmentError:
+            print "Error backing up %s\n" % sudovar
+        else:
+            print "OK"
+
         print "Creating sudo entry..."
-        with open('%s' % sudovar, 'a') as f:
-            f.write('%s\n' % sudopattern)
+        try:
+            with open('%s' % sudovar, 'a') as f:
+                f.write('%s\n' % sudopattern)
             f.close()
         p = subprocess.Popen(["service", "sudo", "restart"], stdout=subprocess.PIPE)
         output, err = p.communicate()
