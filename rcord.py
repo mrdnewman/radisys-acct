@@ -9,17 +9,6 @@ from datetime import date
 
 os.system('clear')
 
-def opened_w_error(filename, mode="r"):
-    try:
-        f = open(filename, mode)
-    except IOError, err:
-        yield None, err
-    else:
-        try:
-            yield f, None
-        finally:
-            f.close()
-
 def applydate():
     now = date.today()
     full = "." + str(now.month) + "." + str(now.day) + "." + str(now.year)
@@ -61,7 +50,8 @@ def setsudo():
                     print "Sudo parameters already set. Nothing to do...\n"
                     sudofile.close()
     else:
-        print "Unable to change %s\n" % sudovar
+        print "Cannot continue, sudo file must exist and be accessible\n"
+        print "Please resolve and re-execute program..."
         raise SystemExit
 
     if not found:
