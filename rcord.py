@@ -8,6 +8,7 @@ from time import sleep
 from datetime import date
 
 os.system('clear')
+sys.tracebacklimit = 0
 
 def applydate():
     now = date.today()
@@ -20,10 +21,10 @@ def get_oslevel():
     get_id = commands.getoutput("lsb_release -i | awk '{ print $3 }'")
     get_rel = commands.getoutput("lsb_release -r | awk '{ print $2 }'")
 
-    if get_id != osname and get_rel != osrel:
-       print "\nPlease Try Install With Correct OS Version:"
-       print "%s" % osname
-       print "%s\n" % osrel
+    if get_id != osname or get_rel != osrel:
+       print "\nThis install requires the following OS and Release:"
+       print "OS: %s" % osname
+       print "REL: %s\n" % osrel
        sys.exit(1)
     else:
         print "Checking OS Level..."
@@ -59,7 +60,7 @@ def setsudo():
         try:
             copyfile("%s" % sudovar, "%s" % sudovar + applydate())
         except EnvironmentError:
-            print "Error backing up %s\n" % sudovar
+            print "FAILED\n"
         else:
             print "OK\n"
 
@@ -67,8 +68,8 @@ def setsudo():
         try:
             f = open('%s' % sudovar, 'a')
         except IOError:
-            print "Failed sudo entry, cannot continue..."
-            print "Change file manually and re-execute program..."
+            print "FAILED"
+            print "Try creating entry manually and re-execute program..."
             raise SystemExit
         else:
             f.write("%s" % sudopattern)
@@ -80,7 +81,7 @@ def setsudo():
             subprocess.check_output(["service", "ssh", "restart"])
         except subprocess.CalledProcessError as e:
             print e.output
-            print "Failed service restart. Restart service manually, re-execute script...\n"
+            print "Failed service restart. Try manual restart, re-execute script...\n"
             raise SystemExit
         else:
             print "OK\n"
