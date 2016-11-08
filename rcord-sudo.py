@@ -78,7 +78,7 @@ def setsudo():
 
         print "Restarting sudo service..."
         try:
-            subprocess.check_output(["service", "ssh", "restart"])
+            subprocess.check_output(["service", "sudo", "restart"])
         except subprocess.CalledProcessError as e:
             print e.output
             print "Failed service restart. Try manual restart, re-execute script...\n"
