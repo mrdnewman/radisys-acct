@@ -1,6 +1,6 @@
 
 
-import lsb_release_ex
+import lsb_release
 import struct
 import os
 import commands
