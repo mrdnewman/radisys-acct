@@ -23,6 +23,12 @@ def intro():
             print "Current Arch: %s\n" % get_arch
 
 
+if __name__ == '__main__:'
+    intro()
+
+    
+
+
 
 
 
