@@ -1,6 +1,6 @@
 
 
-import lsb_release
+import lsb_release_ex
 import struct
 import os
 import commands
@@ -22,11 +22,14 @@ def intro():
             print "\nShould be using 64bit OS -- highly recommended"
             print "Current Arch: %s\n" % get_arch
 
+        print "Checking OS Release..."
 
-if __name__ == '__main__:'
+
+
+if __name__ == '__main__':
     intro()
 
-    
+
 
 
 
