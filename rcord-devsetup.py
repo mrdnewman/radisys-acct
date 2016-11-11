@@ -66,7 +66,7 @@ def platform_info():
         sup_os,
         sup_ver,
         sup_arch)
-    
+
 
 if __name__ == '__main__':
     intro_dev()
