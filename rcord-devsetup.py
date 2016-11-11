@@ -1,7 +1,6 @@
 
 
 import os
-import commands
 import platform
 
 
@@ -23,8 +22,9 @@ def intro_dev():
 
         if platform.system() == 'Linux':
                 print 'Platform: Linux -- OK'
-                if sup_os == get_os:
+                if sup_os == get_os and sup_ver == get_ver:
                         print 'Distro: Ubuntu -- Ok'
+                        print 'Version: %s -- OK' % sup_ver
                 else:
                     print 'Highly Recommend: Using a Ubuntu distro!'
                 if sup_ver == get_ver:
