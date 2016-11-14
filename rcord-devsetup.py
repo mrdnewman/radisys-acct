@@ -43,8 +43,6 @@ def intro_dev():
                 raise SystemExit
 
 
-def platform_info():
-
     print """
      Current System:
      ---------------
