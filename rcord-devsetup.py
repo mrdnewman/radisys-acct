@@ -46,7 +46,7 @@ def intro_dev():
                 raise SystemExit
 
 
-def dev_pkg_install():
+def git_pkg_install():
 
         git_repo = '/home/radisys/instpkg/git-repo/'
         git_collect = ['liberror-perl', 'git-man', 'git_']
@@ -60,20 +60,95 @@ def dev_pkg_install():
         if getreturn != 0:
             print 'Package does not appear to be installed...'
 
-            print 'Beginning Package Deployment...\n'
+            print 'Beginning Git Deployment...\n'
             time.sleep(2)
             os.chdir(git_repo)
             for f in git_collect:
                 try:
                     subprocess.call("dpkg -i %s*" % f, shell=True)
                 except:
-                    print 'Package Install Failure: %s'
+                    print 'Cannot continue, package install failure!'
                     raise SystemExit
                 else:
                     print 'Package Deployment: Succeeded\n'
                     time.sleep(2)
         else:
             print 'Nothing to do, package already installed...\n'
+
+
+def vag_pkg_install():
+
+        vag_repo = '/home/radisys/instpkg/vagrant-repo/'
+        vag_collect = ['vagrant']
+        chk_vag_pkg = 'which vagrant'
+        getreturn = commands.getstatusoutput(chk_vag_pkg)[0]
+
+        time.sleep(2)
+
+        print 'Checking \"Vagrant\" Installation...'
+        if getreturn != 0:
+            print 'Package does not appear to be installed...'
+
+            print 'Beginning Vagrant Deployment...\n'
+            time.sleep(2)
+            os.chdir(vag_repo)
+            for f in vag_collect:
+                try:
+                    subprocess.call("dpkg -i %s*" % f, shell=True)
+                except:
+                    print 'Cannot continue, package install failure!'
+                    raise SystemExit
+                else:
+                    print 'Package Deployment: Succeeded\n'
+                    time.sleep(2)
+        else:
+            print 'Nothing to do, package already installed...\n'
+
+
+def virtbx_pkg_install():
+
+        virtbx_repo = '/home/radisys/instpkg/virtbx-repo/'
+        virtbx_tarball = 'virtbxPKG.tar'
+        chk_virtbx_pkg = 'which virtualbox'
+        getreturn = commands.getstatusoutput(chk_virtbx_pkg)[0]
+
+        time.sleep(2)
+
+        print 'Checking \"VirtualBox\" Installation...'
+        if getreturn != 0:
+            print 'Package does not appear to be installed...'
+            print 'Please be patient, this may take some time...'
+
+            print 'Beginning VirtualBox Deployment...\n'
+            time.sleep(2)
+            os.chdir(virtbx_repo)
+
+            print 'Inflating %s...\n' % virtbx_tarball
+            time.sleep(2)
+            try:
+                subprocess.call("tar -xvf *.tar", shell=True)
+            except:
+                print 'Cannot continue, tar extraction failed!'
+                raise SystemExit
+            else:
+                time.sleep(2)
+                'Extraction succeeded...\n'
+
+            print 'Beginning Virtualbox Deployment...'
+            time.sleep(5)
+            os.chdir(virtbx_repo)
+
+            try:
+                subprocess.call("dpkg -i *.deb", shell=True)
+            except:
+                print 'Cannot continue, package install failure!'
+                raise SystemExit
+            else:
+                print 'Package Deployment: Succeeded\n'
+                time.sleep(2)
+        else:
+            print 'Nothing to do, package already installed...\n'
+
 
 
 def platform_info():
@@ -100,10 +175,15 @@ def platform_info():
         sup_ver,
         sup_arch)
 
+def main():
+    intro_dev()
+    git_pkg_install()
+    vag_pkg_install()
+    virtbx_pkg_install()
+
 
 if __name__ == '__main__':
-    intro_dev()
-    dev_pkg_install()
+    main()
 
 
 
