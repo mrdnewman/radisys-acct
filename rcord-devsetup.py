@@ -3,6 +3,8 @@
 import os
 import time
 import platform
+import commands
+import subprocess
 
 os.system('clear')
 
@@ -19,6 +21,7 @@ def intro_dev():
         welcome = "\nRadisy Corp.\nWelcome To Development Server Setup\n"
 
         print '\n'.join('{:^95}'.format(s) for s in welcome.split('\n'))
+        time.sleep(2)
         print "Checking System Posture...\n"
         time.sleep(2)
 
@@ -35,9 +38,9 @@ def intro_dev():
                     else:
                         print 'Ubuntu version: %s -- OK' % sup_ver
                     if sup_arch != get_arch:
-                        print 'Highly Recommend: Using a 64bit OS'
+                        print 'Highly Recommend: Using a 64bit OS\n'
                     else:
-                        print 'Arch: 64bit -- OK'
+                        print 'Arch: 64bit -- OK\n'
         else:
                 print 'Cannot continue -- Linux Platform required...\n'
                 raise SystemExit
@@ -45,6 +48,32 @@ def intro_dev():
 
 def dev_pkg_install():
 
+        git_repo = '/home/radisys/instpkg/git-repo/'
+        git_collect = ['liberror-perl', 'git-man', 'git_']
+        chk_git_pkg = 'which git'
+        getreturn = commands.getstatusoutput(chk_git_pkg)[0]
+
+        print 'Entering Package Deployment...\n'
+        time.sleep(2)
+
+        print 'Checking \"Git\" Installation...'
+        if getreturn != 0:
+            print 'Package does not appear to be installed...'
+
+            print 'Beginning Package Deployment...\n'
+            time.sleep(2)
+            os.chdir(git_repo)
+            for f in git_collect:
+                try:
+                    subprocess.call("dpkg -i %s*" % f, shell=True)
+                except:
+                    print 'Package Install Failure: %s'
+                    raise SystemExit
+                else:
+                    print 'Package Deployment: Succeeded\n'
+                    time.sleep(2)
+        else:
+            print 'Nothing to do, package already installed...\n'
 
 
 def platform_info():
@@ -74,6 +103,7 @@ def platform_info():
 
 if __name__ == '__main__':
     intro_dev()
+    dev_pkg_install()
 
 
 
