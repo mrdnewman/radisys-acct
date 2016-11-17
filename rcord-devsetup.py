@@ -1,4 +1,5 @@
 
+#!/usr/bin/env python
 
 import os
 import time
@@ -19,16 +20,15 @@ sup_ver = '14.04'
 def intro_dev():
 
         welcome = "\nRadisy Corp.\nWelcome To Development Server Setup\n"
-
         print '\n'.join('{:^95}'.format(s) for s in welcome.split('\n'))
-        time.sleep(2)
-        print "Checking System Posture...\n"
-        time.sleep(2)
+        time.sleep(3)
 
+        print "Checking System Posture...\n"
+        time.sleep(3)
         if platform.system() == 'Linux':
                 if sup_os != get_os:
                     print 'WARNING...'
-                    time.sleep(2)
+                    time.sleep(3)
                     platform_info()
                 else:
                     print 'Platform: Linux -- OK'
@@ -45,110 +45,84 @@ def intro_dev():
                 print 'Cannot continue -- Linux Platform required...\n'
                 raise SystemExit
 
-
 def git_pkg_install():
 
-        git_repo = '/home/radisys/instpkg/git-repo/'
-        git_collect = ['liberror-perl', 'git-man', 'git_']
+        git_repo = "pkgrepo/git-repo"
         chk_git_pkg = 'which git'
         getreturn = commands.getstatusoutput(chk_git_pkg)[0]
-
         print 'Entering Package Deployment...\n'
-        time.sleep(2)
+        time.sleep(3)
 
         print 'Checking \"Git\" Installation...'
         if getreturn != 0:
             print 'Package does not appear to be installed...'
 
             print 'Beginning Git Deployment...\n'
-            time.sleep(2)
-            os.chdir(git_repo)
-            for f in git_collect:
-                try:
-                    subprocess.call("dpkg -i %s*" % f, shell=True)
-                except:
-                    print 'Cannot continue, package install failure!'
-                    raise SystemExit
-                else:
-                    print 'Package Deployment: Succeeded\n'
-                    time.sleep(2)
+            time.sleep(3)
+
+            try:
+                subprocess.call("dpkg -i %s/*.deb" % git_repo, shell=True)
+            except:
+                print 'Cannot continue, package install failure!'
+                raise SystemExit
+            else:
+                print '\nGit Package Deployment: Succeeded\n'
+                time.sleep(3)
         else:
             print 'Nothing to do, package already installed...\n'
 
-
 def vag_pkg_install():
 
-        vag_repo = '/home/radisys/instpkg/vagrant-repo/'
-        vag_collect = ['vagrant']
+        vag_repo = "pkgrepo/vagrant-repo"
+        print vag_repo
         chk_vag_pkg = 'which vagrant'
         getreturn = commands.getstatusoutput(chk_vag_pkg)[0]
 
-        time.sleep(2)
-
+        time.sleep(3)
         print 'Checking \"Vagrant\" Installation...'
         if getreturn != 0:
             print 'Package does not appear to be installed...'
 
             print 'Beginning Vagrant Deployment...\n'
-            time.sleep(2)
-            os.chdir(vag_repo)
-            for f in vag_collect:
-                try:
-                    subprocess.call("dpkg -i %s*" % f, shell=True)
-                except:
-                    print 'Cannot continue, package install failure!'
-                    raise SystemExit
-                else:
-                    print 'Package Deployment: Succeeded\n'
-                    time.sleep(2)
+            time.sleep(3)
+            try:
+                subprocess.call("dpkg -i %s/*.deb" % vag_repo, shell=True)
+            except:
+                print 'Cannot continue, package install failure!'
+                raise SystemExit
+            else:
+                print '\nVagrant Package Deployment: Succeeded\n'
+                time.sleep(3)
         else:
             print 'Nothing to do, package already installed...\n'
 
 
 def virtbx_pkg_install():
 
-        virtbx_repo = '/home/radisys/instpkg/virtbx-repo/'
-        virtbx_tarball = 'virtbxPKG.tar'
+        virtbx_repo = "pkgrepo/virtbx-repo"
         chk_virtbx_pkg = 'which virtualbox'
         getreturn = commands.getstatusoutput(chk_virtbx_pkg)[0]
 
-        time.sleep(2)
-
         print 'Checking \"VirtualBox\" Installation...'
+        time.sleep(3)
+
         if getreturn != 0:
-            print 'Package does not appear to be installed...'
-            print 'Please be patient, this may take some time...'
+            print '\nPackage does not appear to be installed...'
+            print '\nPlease be patient, this may take some time...\n'
 
-            print 'Beginning VirtualBox Deployment...\n'
-            time.sleep(2)
-            os.chdir(virtbx_repo)
-
-            print 'Inflating %s...\n' % virtbx_tarball
-            time.sleep(2)
-            try:
-                subprocess.call("tar -xvf *.tar", shell=True)
-            except:
-                print 'Cannot continue, tar extraction failed!'
-                raise SystemExit
-            else:
-                time.sleep(2)
-                'Extraction succeeded...\n'
-
-            print 'Beginning Virtualbox Deployment...'
+            print '\nBeginning Virtualbox Deployment...\n'
             time.sleep(5)
-            os.chdir(virtbx_repo)
 
             try:
-                subprocess.call("dpkg -i *.deb", shell=True)
+                subprocess.call("dpkg -i %s/*.deb" % virtbx_repo, shell=True)
             except:
-                print 'Cannot continue, package install failure!'
+                print 'Cannot continue, package install failure!\n'
                 raise SystemExit
             else:
-                print 'Package Deployment: Succeeded\n'
-                time.sleep(2)
+                print '\n Virtualbox Package Deployment: Succeeded\n'
+                time.sleep(3)
         else:
             print 'Nothing to do, package already installed...\n'
-
 
 
 def platform_info():
@@ -175,24 +149,8 @@ def platform_info():
         sup_ver,
         sup_arch)
 
-def main():
-    intro_dev()
-    git_pkg_install()
-    vag_pkg_install()
-    virtbx_pkg_install()
 
-
-if __name__ == '__main__':
-    main()
-
-
-
-
-
-
-
-
-
-
-
-
+intro_dev()
+git_pkg_install()
+vag_pkg_install()
+virtbx_pkg_install()
