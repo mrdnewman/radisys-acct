@@ -50,6 +50,7 @@ def git_pkg_install():
         git_repo = "pkgrepo/git-repo"
         chk_git_pkg = 'which git'
         getreturn = commands.getstatusoutput(chk_git_pkg)[0]
+
         print 'Entering Package Deployment...\n'
         time.sleep(3)
 
@@ -74,12 +75,12 @@ def git_pkg_install():
 def vag_pkg_install():
 
         vag_repo = "pkgrepo/vagrant-repo"
-        print vag_repo
         chk_vag_pkg = 'which vagrant'
         getreturn = commands.getstatusoutput(chk_vag_pkg)[0]
 
-        time.sleep(3)
         print 'Checking \"Vagrant\" Installation...'
+        time.sleep(3)
+
         if getreturn != 0:
             print 'Package does not appear to be installed...'
 
