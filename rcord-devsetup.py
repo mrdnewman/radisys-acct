@@ -74,7 +74,6 @@ def git_pkg_install():
 def vag_pkg_install():
 
         vag_repo = "pkgrepo/vagrant-repo"
-        print vag_repo
         chk_vag_pkg = 'which vagrant'
         getreturn = commands.getstatusoutput(chk_vag_pkg)[0]
 
@@ -107,8 +106,8 @@ def virtbx_pkg_install():
         time.sleep(3)
 
         if getreturn != 0:
-            print '\nPackage does not appear to be installed...'
-            print '\nPlease be patient, this may take some time...\n'
+            print '\nPackage does not appear to be installed...\n'
+            print 'Please be patient, this may take some time...\n'
 
             print '\nBeginning Virtualbox Deployment...\n'
             time.sleep(5)
