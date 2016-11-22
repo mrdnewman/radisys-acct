@@ -3,12 +3,20 @@ import os
 
 os.system('clear')
 
-def boarder_select():
+def boarder_select1():
 
          print("""
 1.Customize Pod Config File
 2.Quit
             """)
+
+
+def boarder_select2():
+          print("""
+1.Enter SeedServer ip
+2.Go back
+            """)
+
 
 def pod_rules():
 
@@ -29,23 +37,41 @@ is chosen.
            ''') % config_path
 
 
-def onlab_entries1():
-        get_menu = raw_input("Enter SeedServer ip: " )
-
-is_valid = 0
-pod_rules()
-while not is_valid:
+def onlab_menu2():
+    is_valid2 = 0
+    while not is_valid2:
         try:
-            boarder_select()
+            boarder_select2()
+            seed_menu = int(raw_input('Enter your choice [1-2] : '))
+            is_valid2 = 1
+        except:
+            print 'Invalid input'
+
+    if seed_menu == 1:
+        seed_entry = raw_input('Enter SeedServer ip: ')
+    elif seed_menu == 2:
+        onlab_menu1()
+
+
+
+def onlab_menu1():
+    is_valid = 0
+    pod_rules()
+    while not is_valid:
+        try:
+            boarder_select1()
             choice = int(raw_input('Enter your choice [1-2] : '))
-            is_valid = 1  ##
+            is_valid = 1
         except:
             print 'Invalid input...'
 
-if choice == 1:
-    onlab_entries1()
-elif choice == 2:
-    raise SystemExit
+    if choice == 1:
+        onlab_menu2()
+    elif choice == 2:
+        raise SystemExit
+
+
+onlab_menu1()
 
 
 
