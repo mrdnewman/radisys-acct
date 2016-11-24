@@ -4,12 +4,26 @@ import os
 os.system('clear')
 
 
-def seed_sub1():
+def action_sub_menu():
           print("""
 1. Proceed
 2. Change
 3. Cancel
             """)
+
+
+def fabric_ip_select():
+    print("""
+  1. Enter Fabric ip
+  2. Go back
+                 """)
+
+
+def seed_select():
+    print("""
+  1. Enter SeedServer ip
+  2. Go back
+                 """)
 
 
 def main_select():
@@ -18,11 +32,7 @@ def main_select():
 2.Quit
       """)
 
-def seed_select():
-          print("""
-1. Enter SeedServer ip
-2. Go back
-               """)
+
 
 
 def pod_rules():
@@ -44,6 +54,43 @@ is chosen.
            ''') % config_path
 
 
+def seed_action():
+    done = False
+    while not done:
+
+        seedip = raw_input("Enter SeedServer ip: ")
+        try:
+            netaddr.ip.IPAddress(seedip)
+            done = True
+        except netaddr.core.AddrFormatError:
+            print 'Invalid IP Address Format, please try again!'
+        else:
+            print '\nYou Entered... %s' % seedip
+            is_valid = 0
+
+            while not is_valid:
+                try:
+                    action_sub_menu()
+                    choice = int(raw_input('Enter your choice [1-3] : '))
+                    is_valid = 1
+                except:
+                    print 'Invalid input...'
+
+            if choice == 1:
+                fabric_ip_choice()
+
+            elif choice == 2:
+                seed_action()
+
+            elif choice == 3:
+                onlab_menu()
+
+            elif choice > 3:
+                print 'Selection out of range: %d' % choice
+                is_valid = 0
+                seed_action()
+
+
 def seed_choice():
     is_valid = 0
     while not is_valid:
@@ -54,56 +101,77 @@ def seed_choice():
 
         except:
             print 'Invalid input...'
-        else:
 
+        else:
             if choice == 1:
                 seed_action()
 
             elif choice == 2:
                 onlab_menu()
-
-            elif choice == 3:
-                raise SystemExit
 
             elif choice > 2:
                 print 'Selection out of range: %d' % choice
                 is_valid = 0
 
 
-def seed_action():
+def fabric_ip_action():
     done = False
     while not done:
 
-        seedip = raw_input("SeedServer ip address: ")
+        fabric_ip = raw_input("Enter Frabric ip: ")
         try:
-            netaddr.ip.IPAddress(seedip)
-            # netaddr.IPNetwork(seedip)
+            netaddr.IPNetwork(fabric_ip)
             done = True
         except netaddr.core.AddrFormatError:
             print 'Invalid IP Address Format, please try again!'
         else:
-            print '\nYou Entered... %s' % seedip
+            print '\nYou Entered... %s' % fabric_ip
             is_valid = 0
 
             while not is_valid:
                 try:
-                    seed_sub1()
+                    action_sub_menu()
                     choice = int(raw_input('Enter your choice [1-3] : '))
                     is_valid = 1
                 except:
                     print 'Invalid input...'
 
             if choice == 1:
-                print 'Now we go to the next action...'
+                fabric_ip_choice()
+
             elif choice == 2:
                 seed_action()
+
             elif choice == 3:
                 onlab_menu()
+
             elif choice > 3:
                 print 'Selection out of range: %d' % choice
                 is_valid = 0
                 seed_action()
 
+
+def fabric_ip_choice():
+    is_valid = 0
+    while not is_valid:
+        try:
+            fabric_ip_select()
+            choice = int(raw_input('Enter your choice [1-2] : '))
+            is_valid = 1
+
+        except:
+            print 'Invalid input...'
+        else:
+
+            if choice == 1:
+                fabric_ip_action()
+
+            elif choice == 2:
+                onlab_menu()   # need to make raw_input isolated function...
+
+            elif choice > 2:
+                print 'Selection out of range: %d' % choice
+                is_valid = 0
 
 
 def onlab_menu():
