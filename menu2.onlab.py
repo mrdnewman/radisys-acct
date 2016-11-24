@@ -11,6 +11,11 @@ def choice_sub_menu():
 3. Go back
             """)
 
+def mgmnt_ip_select():
+    print("""
+  1. Enter Management ip
+  2. Go back
+                 """)
 
 def fabric_ip_select():
     print("""
@@ -77,6 +82,7 @@ def seed_action():
                     print 'Invalid input...'
 
             if choice == 1:
+                print '\nProceeding with Fabric ip...\n'
                 fabric_ip_choice()
 
             elif choice == 2:
@@ -138,13 +144,14 @@ def fabric_ip_action():
                     print 'Invalid input...'
 
             if choice == 1:
-                print 'Proceeding with Management ip...'
+                print '\nProceeding with Management ip...\n'
+                mgmnt_ip_choice()
 
             elif choice == 2:
                 fabric_ip_action()
 
             elif choice == 3:
-                seed_choice()
+                fabric_ip_choice()
 
             elif choice > 3:
                 print 'Selection out of range: %d' % choice
@@ -169,6 +176,66 @@ def fabric_ip_choice():
 
             elif choice == 2:
                 seed_choice()
+
+            elif choice > 2:
+                print 'Selection out of range: %d' % choice
+                is_valid = 0
+
+
+def mgmnt_ip_action():
+    done = False
+    while not done:
+
+        mgmnt_ip = raw_input("Enter Management ip: ")
+        try:
+            netaddr.IPNetwork(mgmnt_ip)
+            done = True
+        except netaddr.core.AddrFormatError:
+            print 'Invalid Network Format, please try again!'
+        else:
+            print '\nYou Entered... %s' % mgmnt_ip
+            is_valid = 0
+
+            while not is_valid:
+                try:
+                    choice_sub_menu()
+                    choice = int(raw_input('Enter your choice [1-3] : '))
+                    is_valid = 1
+                except:
+                    print 'Invalid input...'
+
+            if choice == 1:
+                print '\nProceeding with External ip...\n'
+
+            elif choice == 2:
+                mgmnt_ip_action()
+
+            elif choice == 3:
+                mgmnt_ip_choice()
+
+            elif choice > 3:
+                print 'Selection out of range: %d' % choice
+                is_valid = 0
+                seed_action()
+
+
+def mgmnt_ip_choice():
+    is_valid = 0
+    while not is_valid:
+        try:
+            mgmnt_ip_select()
+            choice = int(raw_input('Enter your choice [1-2] : '))
+            is_valid = 1
+
+        except:
+            print 'Invalid input...'
+        else:
+
+            if choice == 1:
+                mgmnt_ip_action()
+
+            elif choice == 2:
+                fabric_ip_choice()
 
             elif choice > 2:
                 print 'Selection out of range: %d' % choice
