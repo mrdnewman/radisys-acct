@@ -91,6 +91,7 @@ def seed_action():
                 seed_action()
 
 
+
 def seed_choice():
     is_valid = 0
     while not is_valid:
@@ -140,7 +141,7 @@ def fabric_ip_action():
                 fabric_ip_choice()
 
             elif choice == 2:
-                seed_action()
+                fabric_ip_action()
 
             elif choice == 3:
                 onlab_menu()
@@ -189,12 +190,6 @@ def onlab_menu():
         seed_choice()
     elif choice == 2:
         raise SystemExit
-
-
-
-
-
-
 
 
 onlab_menu()
