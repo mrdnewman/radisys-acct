@@ -4,11 +4,19 @@ import os
 os.system('clear')
 
 
-def action_sub_menu():
+def seed_sub_menu():
           print("""
 1. Proceed
 2. Change
 3. Cancel
+            """)
+
+
+def fabric_sub_menu():
+    print("""
+1. Proceed
+2. Change
+3. Go back
             """)
 
 
@@ -70,7 +78,7 @@ def seed_action():
 
             while not is_valid:
                 try:
-                    action_sub_menu()
+                    seed_sub_menu()
                     choice = int(raw_input('Enter your choice [1-3] : '))
                     is_valid = 1
                 except:
@@ -131,7 +139,7 @@ def fabric_ip_action():
 
             while not is_valid:
                 try:
-                    action_sub_menu()
+                    fabric_sub_menu()
                     choice = int(raw_input('Enter your choice [1-3] : '))
                     is_valid = 1
                 except:
@@ -144,7 +152,7 @@ def fabric_ip_action():
                 fabric_ip_action()
 
             elif choice == 3:
-                onlab_menu()
+                seed_choice()
 
             elif choice > 3:
                 print 'Selection out of range: %d' % choice
@@ -168,7 +176,7 @@ def fabric_ip_choice():
                 fabric_ip_action()
 
             elif choice == 2:
-                onlab_menu()   # need to make raw_input isolated function...
+                seed_choice()
 
             elif choice > 2:
                 print 'Selection out of range: %d' % choice
