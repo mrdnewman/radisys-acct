@@ -4,15 +4,7 @@ import os
 os.system('clear')
 
 
-def seed_sub_menu():
-          print("""
-1. Proceed
-2. Change
-3. Cancel
-            """)
-
-
-def fabric_sub_menu():
+def choice_sub_menu():
     print("""
 1. Proceed
 2. Change
@@ -74,11 +66,11 @@ def seed_action():
             print 'Invalid IP Address Format, please try again!'
         else:
             print '\nYou Entered... %s' % seedip
-            is_valid = 0
 
+            is_valid = 0
             while not is_valid:
                 try:
-                    seed_sub_menu()
+                    choice_sub_menu()
                     choice = int(raw_input('Enter your choice [1-3] : '))
                     is_valid = 1
                 except:
@@ -91,7 +83,7 @@ def seed_action():
                 seed_action()
 
             elif choice == 3:
-                onlab_menu()
+                seed_choice()
 
             elif choice > 3:
                 print 'Selection out of range: %d' % choice
@@ -132,21 +124,21 @@ def fabric_ip_action():
             netaddr.IPNetwork(fabric_ip)
             done = True
         except netaddr.core.AddrFormatError:
-            print 'Invalid IP Address Format, please try again!'
+            print 'Invalid Network Format, please try again!'
         else:
             print '\nYou Entered... %s' % fabric_ip
             is_valid = 0
 
             while not is_valid:
                 try:
-                    fabric_sub_menu()
+                    choice_sub_menu()
                     choice = int(raw_input('Enter your choice [1-3] : '))
                     is_valid = 1
                 except:
                     print 'Invalid input...'
 
             if choice == 1:
-                fabric_ip_choice()
+                print 'Proceeding with Management ip...'
 
             elif choice == 2:
                 fabric_ip_action()
