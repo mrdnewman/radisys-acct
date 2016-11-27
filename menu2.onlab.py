@@ -6,7 +6,7 @@ os.system('clear')
 
 def end_result():
     print("""
-    THIS IS YOUR RESULT
+THIS IS YOUR RESULT
     """)
 
 def choice_sub_menu():
