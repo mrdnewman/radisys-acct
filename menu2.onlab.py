@@ -332,41 +332,40 @@ def external_ip_choice():
 
 
 def management_iface_action():
-    is_valid = 0
-    while not is_valid:
-
+    #is_valid = 0
+    while True:
+        mgmt_iface = raw_input("Enter Management Iface: ")
         try:
-            mgmt_iface = raw_input("Enter Management Iface: ")
-            netaddr.IPNetwork(mgmt_iface)
-            is_valid = 1
-        except netaddr.core.AddrFormatError:
-            print 'Invalid Network Format, please try again!'
+            val = mgmt_iface
+            len(val) > 10
+        except ValueError:
+            print 'Invalid -- 10 Character Limit!'
         else:
             print '\nYou Entered... %s' % mgmt_iface
-            is_valid = 0
+            break
 
-            while not is_valid:
-                try:
-                    choice_sub_menu()
-                    choice = int(raw_input('Enter your choice [1-3] : '))
-                    is_valid = 1
-                except:
-                    print 'Invalid input...'
-
+    is_valid = 0
+    while not is_valid:
+        try:
+            choice_sub_menu()
+            choice = int(raw_input('Enter your choice [1-3] : '))
+            is_valid = 1
+        except:
+            print 'Invalid input...'
+        else:
             if choice == 1:
                 print '\nProceeding with External_iface...\n'
-
 
             elif choice == 2:
                 management_iface_action()
 
             elif choice == 3:
-               management_iface_choice()
+                management_iface_choice()
 
             elif choice > 3:
                 print 'Selection out of range: %d' % choice
                 is_valid = 0
-                management_iface_action()
+
 
 
 
