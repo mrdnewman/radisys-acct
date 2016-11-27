@@ -4,10 +4,7 @@ import os
 os.system('clear')
 
 
-def end_result():
-    print("""
-THIS IS YOUR RESULT
-    """)
+
 
 def choice_sub_menu():
     print("""
@@ -61,8 +58,6 @@ def main_select():
       """)
 
 
-
-
 def pod_rules():
 
         config_path = (os.getcwd() + "/cord/config/")
@@ -82,19 +77,18 @@ is chosen.
            ''') % config_path
 
 
-
-
 def seed_action():
     is_valid = 0
     while not is_valid:
         try:
-            seedip = raw_input("Enter SeedServer ip: ")
-            netaddr.ip.IPAddress(seedip)
+
+            seed_action.seedip = raw_input("Enter SeedServer ip: ")
+            netaddr.ip.IPAddress(seed_action.seedip)
             is_valid = 1
         except netaddr.core.AddrFormatError:
             print 'Invalid IP Address Format, please try again!'
         else:
-            print '\nYou Entered... %s' % seedip
+            print '\nYou Entered... %s' % seed_action.seedip
             is_valid = 0
 
             while not is_valid:
@@ -155,13 +149,13 @@ def fabric_ip_action():
 
     while not is_valid:
         try:
-            fabric_ip = raw_input("Enter Frabric ip: ")
-            netaddr.IPNetwork(fabric_ip)
+            fabric_ip_action.fabric_ip = raw_input("Enter Frabric ip: ")
+            netaddr.IPNetwork(fabric_ip_action.fabric_ip)
             is_valid = 0
         except netaddr.core.AddrFormatError:
             print 'Invalid Network Format, please try again!'
         else:
-            print '\nYou Entered... %s' % fabric_ip
+            print '\nYou Entered... %s' % fabric_ip_action.fabric_ip
             is_valid = 0
 
             while not is_valid:
@@ -215,13 +209,13 @@ def mgmnt_ip_action():
     while not is_valid:
 
         try:
-            mgmnt_ip = raw_input("Enter Management ip: ")
-            netaddr.IPNetwork(mgmnt_ip)
+            mgmnt_ip_action.mgmnt_ip = raw_input("Enter Management ip: ")
+            netaddr.IPNetwork(mgmnt_ip_action.mgmnt_ip)
             is_valid = 1
         except netaddr.core.AddrFormatError:
             print 'Invalid Network Format, please try again!'
         else:
-            print '\nYou Entered... %s' % mgmnt_ip
+            print '\nYou Entered... %s' % mgmnt_ip_action.mgmnt_ip
             is_valid = 0
 
         while not is_valid:
@@ -279,13 +273,13 @@ def external_ip_action():
     while not is_valid:
 
         try:
-            external_ip = raw_input("Enter External ip: ")
-            netaddr.IPNetwork(external_ip)
+            external_ip_action.external_ip = raw_input("Enter External ip: ")
+            netaddr.IPNetwork(external_ip_action.external_ip)
             is_valid = 1
         except netaddr.core.AddrFormatError:
             print 'Invalid Network Format, please try again!'
         else:
-            print '\nYou Entered... %s' % external_ip
+            print '\nYou Entered... %s' % external_ip_action.external_ip
             is_valid = 0
 
             while not is_valid:
@@ -345,14 +339,14 @@ def external_ip_choice():
 def management_iface_action():
     #is_valid = 0
     while True:
-        mgmt_iface = raw_input("Enter Management Iface: ")
+        management_iface_action.mgmt_iface = raw_input("Enter Management Iface: ")
         try:
-            val = mgmt_iface
+            val = management_iface_action.mgmt_iface
             len(val) > 10
         except ValueError:
             print 'Invalid -- 10 Character Limit!'
         else:
-            print '\nYou Entered... %s' % mgmt_iface
+            print '\nYou Entered... %s' % management_iface_action.mgmt_iface
             break
 
     is_valid = 0
@@ -408,14 +402,14 @@ def management_iface_choice():
 def external_iface_action():
     #is_valid = 0
     while True:
-        ext_iface = raw_input("Enter External Iface: ")
+        external_iface_action.ext_iface = raw_input("Enter External Iface: ")
         try:
-            val = ext_iface
+            val = external_iface_action.ext_iface
             len(val) > 10
         except ValueError:
             print 'Invalid -- 10 Character Limit!'
         else:
-            print '\nYou Entered... %s' % ext_iface
+            print '\nYou Entered... %s' % external_iface_action.ext_iface
             break
 
     is_valid = 0
@@ -486,6 +480,34 @@ def onlab_menu():
         seed_choice()
     elif choice == 2:
         raise SystemExit
+
+
+
+
+def end_result():
+    print """
+Current Network Settings...
+-----------------------------------------
+Seed Server IP:     %s
+
+fabric_ip:          %s
+
+management_ip:      %s
+
+external_ip:        %s
+
+management_iface:   %s
+
+external_iface:     %s
+-----------------------------------------
+    """ % (
+        seed_action.seedip,
+        fabric_ip_action.fabric_ip,
+        mgmnt_ip_action.mgmnt_ip,
+        external_ip_action.external_ip,
+        management_iface_action.mgmt_iface,
+        management_iface_action.mgmt_iface)
+
 
 
 onlab_menu()
