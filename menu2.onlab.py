@@ -11,6 +11,12 @@ def choice_sub_menu():
 3. Go back
             """)
 
+def external_iface_select():
+    print("""
+1. Enter External_Iface
+2. Go back
+                           """)
+
 def  management_iface_select():
     print("""
 1. Enter Management_Iface
@@ -355,6 +361,7 @@ def management_iface_action():
         else:
             if choice == 1:
                 print '\nProceeding with External_iface...\n'
+                external_iface_choice()
 
             elif choice == 2:
                 management_iface_action()
@@ -392,6 +399,67 @@ def management_iface_choice():
                 print 'Selection out of range: %d' % choice
                 is_valid = 0
 
+
+def external_iface_action():
+    #is_valid = 0
+    while True:
+        ext_iface = raw_input("Enter External Iface: ")
+        try:
+            val = ext_iface
+            len(val) > 10
+        except ValueError:
+            print 'Invalid -- 10 Character Limit!'
+        else:
+            print '\nYou Entered... %s' % ext_iface
+            break
+
+    is_valid = 0
+    while not is_valid:
+        try:
+            choice_sub_menu()
+            choice = int(raw_input('Enter your choice [1-3] : '))
+            is_valid = 1
+        except:
+            print 'Invalid input...'
+        else:
+            if choice == 1:
+                print '\nCommit Settings....\n'
+
+            elif choice == 2:
+                external_iface_action()
+
+            elif choice == 3:
+                management_iface_choice()
+
+            elif choice > 3:
+                print 'Selection out of range: %d' % choice
+                is_valid = 0
+
+
+
+
+
+def external_iface_choice():
+    is_valid = 0
+    while not is_valid:
+        try:
+            external_iface_select()
+            choice = int(raw_input('Enter your choice [1-2] : '))
+            is_valid = 1
+
+        except:
+            print 'Invalid input...'
+        else:
+
+            if choice == 1:
+                external_iface_action()
+
+            elif choice == 2:
+                management_iface_choice()
+
+            elif choice > 2:
+                print 'Selection out of range: %d' % choice
+                is_valid = 0
 
 
 
