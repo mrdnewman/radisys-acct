@@ -11,23 +11,35 @@ def choice_sub_menu():
 3. Go back
             """)
 
+def  management_iface_select():
+    print("""
+1. Enter Management_Iface
+2. Go back
+                       """)
+
+def external_ip_select():
+    print("""
+1. Enter External ip
+2. Go back
+                    """)
+
 def mgmnt_ip_select():
     print("""
-  1. Enter Management ip
-  2. Go back
+1. Enter Management ip
+2. Go back
                  """)
 
 def fabric_ip_select():
     print("""
-  1. Enter Fabric ip
-  2. Go back
+1. Enter Fabric ip
+2. Go back
                  """)
 
 
 def seed_select():
     print("""
-  1. Enter SeedServer ip
-  2. Go back
+1. Enter SeedServer ip
+2. Go back
                  """)
 
 
@@ -59,20 +71,21 @@ is chosen.
            ''') % config_path
 
 
-def seed_action():
-    done = False
-    while not done:
 
-        seedip = raw_input("Enter SeedServer ip: ")
+
+def seed_action():
+    is_valid = 0
+    while not is_valid:
         try:
+            seedip = raw_input("Enter SeedServer ip: ")
             netaddr.ip.IPAddress(seedip)
-            done = True
+            is_valid = 1
         except netaddr.core.AddrFormatError:
             print 'Invalid IP Address Format, please try again!'
         else:
             print '\nYou Entered... %s' % seedip
-
             is_valid = 0
+
             while not is_valid:
                 try:
                     choice_sub_menu()
@@ -96,6 +109,10 @@ def seed_action():
                 is_valid = 0
                 seed_action()
 
+            elif choice > 3:
+                print 'Selection out of range: %d' % choice
+                is_valid = 0
+                seed_action()
 
 
 def seed_choice():
@@ -107,9 +124,9 @@ def seed_choice():
             is_valid = 1
 
         except:
-            print 'Invalid input...'
-
+            print 'Invalid input, selection of of range!'
         else:
+
             if choice == 1:
                 seed_action()
 
@@ -119,16 +136,17 @@ def seed_choice():
             elif choice > 2:
                 print 'Selection out of range: %d' % choice
                 is_valid = 0
+                seed_choice()
 
 
 def fabric_ip_action():
-    done = False
-    while not done:
+    is_valid = 0
 
-        fabric_ip = raw_input("Enter Frabric ip: ")
+    while not is_valid:
         try:
+            fabric_ip = raw_input("Enter Frabric ip: ")
             netaddr.IPNetwork(fabric_ip)
-            done = True
+            is_valid = 0
         except netaddr.core.AddrFormatError:
             print 'Invalid Network Format, please try again!'
         else:
@@ -156,8 +174,7 @@ def fabric_ip_action():
             elif choice > 3:
                 print 'Selection out of range: %d' % choice
                 is_valid = 0
-                seed_action()
-
+                fabric_ip_action()
 
 def fabric_ip_choice():
     is_valid = 0
@@ -183,29 +200,30 @@ def fabric_ip_choice():
 
 
 def mgmnt_ip_action():
-    done = False
-    while not done:
+    is_valid = 0
+    while not is_valid:
 
-        mgmnt_ip = raw_input("Enter Management ip: ")
         try:
+            mgmnt_ip = raw_input("Enter Management ip: ")
             netaddr.IPNetwork(mgmnt_ip)
-            done = True
+            is_valid = 1
         except netaddr.core.AddrFormatError:
             print 'Invalid Network Format, please try again!'
         else:
             print '\nYou Entered... %s' % mgmnt_ip
             is_valid = 0
 
-            while not is_valid:
-                try:
-                    choice_sub_menu()
-                    choice = int(raw_input('Enter your choice [1-3] : '))
-                    is_valid = 1
-                except:
-                    print 'Invalid input...'
+        while not is_valid:
+            try:
+                choice_sub_menu()
+                choice = int(raw_input('Enter your choice [1-3] : '))
+                is_valid = 1
+            except:
+                print 'Invalid input...'
 
             if choice == 1:
                 print '\nProceeding with External ip...\n'
+                external_ip_choice()
 
             elif choice == 2:
                 mgmnt_ip_action()
@@ -216,7 +234,7 @@ def mgmnt_ip_action():
             elif choice > 3:
                 print 'Selection out of range: %d' % choice
                 is_valid = 0
-                seed_action()
+                mgmnt_ip_action()
 
 
 def mgmnt_ip_choice():
@@ -242,6 +260,142 @@ def mgmnt_ip_choice():
                 is_valid = 0
 
 
+
+
+
+def external_ip_action():
+    is_valid = 0
+    while not is_valid:
+
+        try:
+            external_ip = raw_input("Enter External ip: ")
+            netaddr.IPNetwork(external_ip)
+            is_valid = 1
+        except netaddr.core.AddrFormatError:
+            print 'Invalid Network Format, please try again!'
+        else:
+            print '\nYou Entered... %s' % external_ip
+            is_valid = 0
+
+            while not is_valid:
+                try:
+                    choice_sub_menu()
+                    choice = int(raw_input('Enter your choice [1-3] : '))
+                    is_valid = 1
+                except:
+                    print 'Invalid input...'
+
+                if choice == 1:
+                    print '\nProceeding with Management_Iface...\n'
+                    management_iface_choice()
+
+                elif choice == 2:
+                    external_ip_action()
+
+                elif choice == 3:
+                    external_ip_choice()
+
+                elif choice > 3:
+                    print 'Selection out of range: %d' % choice
+                    is_valid = 0
+                    external_ip_action()
+
+                elif choice > 3:
+                    print 'Selection out of range: %d' % choice
+                    is_valid = 0
+                    external_ip_action()
+
+
+def external_ip_choice():
+    is_valid = 0
+    while not is_valid:
+        try:
+            external_ip_select()
+            choice = int(raw_input('Enter your choice [1-2] : '))
+            is_valid = 1
+
+        except:
+            print 'Invalid input...'
+        else:
+
+            if choice == 1:
+                external_ip_action()
+
+            elif choice == 2:
+                mgmnt_ip_choice()
+
+            elif choice > 2:
+                print 'Selection out of range: %d' % choice
+                is_valid = 0
+                external_ip_choice()
+
+
+
+def management_iface_action():
+    is_valid = 0
+    while not is_valid:
+
+        try:
+            mgmt_iface = raw_input("Enter Management Iface: ")
+            netaddr.IPNetwork(mgmt_iface)
+            is_valid = 1
+        except netaddr.core.AddrFormatError:
+            print 'Invalid Network Format, please try again!'
+        else:
+            print '\nYou Entered... %s' % mgmt_iface
+            is_valid = 0
+
+            while not is_valid:
+                try:
+                    choice_sub_menu()
+                    choice = int(raw_input('Enter your choice [1-3] : '))
+                    is_valid = 1
+                except:
+                    print 'Invalid input...'
+
+            if choice == 1:
+                print '\nProceeding with External_iface...\n'
+
+
+            elif choice == 2:
+                management_iface_action()
+
+            elif choice == 3:
+               management_iface_choice()
+
+            elif choice > 3:
+                print 'Selection out of range: %d' % choice
+                is_valid = 0
+                management_iface_action()
+
+
+
+
+def management_iface_choice():
+    is_valid = 0
+    while not is_valid:
+        try:
+            management_iface_select()
+            choice = int(raw_input('Enter your choice [1-2] : '))
+            is_valid = 1
+
+        except:
+            print 'Invalid input...'
+        else:
+
+            if choice == 1:
+                management_iface_action()
+
+            elif choice == 2:
+                external_ip_choice()
+
+            elif choice > 2:
+                print 'Selection out of range: %d' % choice
+                is_valid = 0
+
+
+
+
 def onlab_menu():
     is_valid = 0
     pod_rules()
@@ -252,6 +406,10 @@ def onlab_menu():
             is_valid = 1
         except:
             print 'Invalid input...'
+        else:
+            if choice > 2:
+                print 'Selection out of range: %d' % choice
+                is_valid = 0
 
     if choice == 1:
         seed_choice()
