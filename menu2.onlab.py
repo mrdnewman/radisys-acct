@@ -4,6 +4,11 @@ import os
 os.system('clear')
 
 
+def end_result():
+    print("""
+    THIS IS YOUR RESULT
+    """)
+
 def choice_sub_menu():
     print("""
 1. Proceed
@@ -418,19 +423,18 @@ def external_iface_action():
         try:
             choice_sub_menu()
             choice = int(raw_input('Enter your choice [1-3] : '))
-            is_valid = 1
+
         except:
             print 'Invalid input...'
         else:
+            is_valid = 1
             if choice == 1:
                 print '\nCommit Settings....\n'
-
+                end_result()
             elif choice == 2:
                 external_iface_action()
-
             elif choice == 3:
                 management_iface_choice()
-
             elif choice > 3:
                 print 'Selection out of range: %d' % choice
                 is_valid = 0
