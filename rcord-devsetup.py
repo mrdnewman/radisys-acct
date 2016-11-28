@@ -151,7 +151,9 @@ def platform_info():
         sup_arch)
 
 
-intro_dev()
-git_pkg_install()
-vag_pkg_install()
-virtbx_pkg_install()
+if __name__=='main':
+    intro_dev()
+    git_pkg_install()
+    vag_pkg_install()
+    virtbx_pkg_install()
+
