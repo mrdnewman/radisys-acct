@@ -42,12 +42,11 @@ def fabric_ip_select():
 2. Go back
                  """)
 
-
 def seed_select():
     print("""
-1. Enter SeedServer ip
-2. Go back
-                 """)
+ 1. Enter Seed ip
+ 2. Go back
+                  """)
 
 
 def main_select():
@@ -126,6 +125,7 @@ def seed_action():
 
 
 def seed_choice():
+    seed = 'SeedServer ip'
     is_valid = 0
     while not is_valid:
         try:
@@ -271,8 +271,6 @@ def mgmnt_ip_choice():
 
 
 
-
-
 def external_ip_action():
     is_valid = 0
     while not is_valid:
@@ -378,9 +376,6 @@ def management_iface_action():
                 is_valid = 0
 
 
-
-
-
 def management_iface_choice():
     is_valid = 0
     while not is_valid:
@@ -461,6 +456,8 @@ def external_iface_choice():
                 print 'Selection out of range: %d' % choice
                 is_valid = 0
 
+
+
 def onlab_update_config():
     myconfig = 'onlab_develop_pod.yml'
 
@@ -504,6 +501,7 @@ def onlab_menu():
         seed_choice()
     elif choice == 2:
         raise SystemExit
+
 
 def end_result():
     print """
@@ -550,5 +548,5 @@ external_iface:     %s
 
 
 
-
-onlab_menu()
+if __name__=='main':
+    onlab_menu()
