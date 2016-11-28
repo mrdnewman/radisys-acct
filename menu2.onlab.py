@@ -1,9 +1,8 @@
 import netaddr
 import os
+import fileinput
 
 os.system('clear')
-
-
 
 
 def choice_sub_menu():
@@ -55,6 +54,12 @@ def main_select():
     print("""
 1.Customize Pod Config File
 2.Quit
+      """)
+
+def commit_select():
+    print("""
+1.Commit Modifications To Pod Config File
+2.Restart
       """)
 
 
@@ -459,6 +464,28 @@ def external_iface_choice():
                 print 'Selection out of range: %d' % choice
                 is_valid = 0
 
+def onlab_update_config():
+    myconfig = 'onlab_develop_pod.yml'
+
+    rep = {'myseedip':'%s' % seed_action.seedip,
+           'myfrabricip':'%s' % fabric_ip_action.fabric_ip,
+           'mymanip':'%s' % mgmnt_ip_action.mgmnt_ip,
+           'myextip':'%s' % external_ip_action.external_ip,
+           'mymaniface':'%s' % management_iface_action.mgmt_iface,
+           'myextiface':'%s' % external_iface_action.ext_iface}
+
+    with open(myconfig, 'r+') as fd:
+
+        # read in all the data
+        text = fd.read()
+
+        fd.seek(0)
+        fd.truncate()
+
+        for key in rep.keys():
+            text = text.replace(key, rep[key])
+
+        fd.write(text)
 
 
 def onlab_menu():
@@ -480,9 +507,6 @@ def onlab_menu():
         seed_choice()
     elif choice == 2:
         raise SystemExit
-
-
-
 
 def end_result():
     print """
@@ -506,7 +530,27 @@ external_iface:     %s
         mgmnt_ip_action.mgmnt_ip,
         external_ip_action.external_ip,
         management_iface_action.mgmt_iface,
-        management_iface_action.mgmt_iface)
+        external_iface_action.ext_iface
+          )
+
+    is_valid = 0
+    while not is_valid:
+        try:
+            commit_select()
+            choice = int(raw_input('Enter your choice [1-2] : '))
+            is_valid = 1
+        except:
+            print 'Invalid input...'
+        else:
+            if choice > 2:
+                print 'Selection out of range: %d' % choice
+                is_valid = 0
+            elif choice == 1:
+                print 'writing to onlab file...'
+                onlab_update_config()
+            elif choice == 2:
+                onlab_menu()
+
 
 
 
