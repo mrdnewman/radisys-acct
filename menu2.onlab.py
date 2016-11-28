@@ -271,8 +271,6 @@ def mgmnt_ip_choice():
 
 
 
-
-
 def external_ip_action():
     is_valid = 0
     while not is_valid:
@@ -378,9 +376,6 @@ def management_iface_action():
                 is_valid = 0
 
 
-
-
-
 def management_iface_choice():
     is_valid = 0
     while not is_valid:
@@ -439,9 +434,6 @@ def external_iface_action():
                 is_valid = 0
 
 
-
-
-
 def external_iface_choice():
     is_valid = 0
     while not is_valid:
@@ -463,6 +455,8 @@ def external_iface_choice():
             elif choice > 2:
                 print 'Selection out of range: %d' % choice
                 is_valid = 0
+
+
 
 def onlab_update_config():
     myconfig = 'onlab_develop_pod.yml'
@@ -507,6 +501,7 @@ def onlab_menu():
         seed_choice()
     elif choice == 2:
         raise SystemExit
+
 
 def end_result():
     print """
