@@ -548,5 +548,5 @@ external_iface:     %s
 
 
 
-
-onlab_menu()
+if __name__=='main':
+    onlab_menu()
