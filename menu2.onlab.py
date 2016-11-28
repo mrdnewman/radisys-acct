@@ -439,9 +439,6 @@ def external_iface_action():
                 is_valid = 0
 
 
-
-
-
 def external_iface_choice():
     is_valid = 0
     while not is_valid:
