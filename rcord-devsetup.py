@@ -19,7 +19,7 @@ sup_ver = '14.04'
 
 def intro_dev():
 
-        welcome = "\nRadisy Corp.\nWelcome To Development Server Setup For RCORD\n"
+        welcome = "\nRadisy Corp.\nWelcome To Development Server Setup\nAn RCORD-1.0 Product\n"
         print '\n'.join('{:^95}'.format(s) for s in welcome.split('\n'))
         time.sleep(3)
 
