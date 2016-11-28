@@ -42,12 +42,11 @@ def fabric_ip_select():
 2. Go back
                  """)
 
-
 def seed_select():
     print("""
-1. Enter SeedServer ip
-2. Go back
-                 """)
+ 1. Enter Seed ip
+ 2. Go back
+                  """)
 
 
 def main_select():
@@ -126,6 +125,7 @@ def seed_action():
 
 
 def seed_choice():
+    seed = 'SeedServer ip'
     is_valid = 0
     while not is_valid:
         try:
