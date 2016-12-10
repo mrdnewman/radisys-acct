@@ -15,6 +15,7 @@ os.system('clear')
 get_os = platform.linux_distribution()[0]
 get_ver = platform.linux_distribution()[1]
 get_arch = platform.processor()
+#get_arch = commands.getoutput("uname -m")
 get_cpu = int(commands.getoutput("nproc"))
 get_free_space = int(commands.getoutput("df -k / | awk '{ print $4 }' | tail -1"))
 
@@ -22,8 +23,8 @@ sup_arch = 'x86_64'
 sup_os = 'Ubuntu'
 sup_ver = '14.04'
 sup_cpu = int(12)
-sup_kilo_cap = int(1288490188)
-min_disk_size = '1.2T'
+sup_free_space = int(1073741824)
+min_disk_size = '1TB'
 
 
 def get_capacity():
@@ -65,28 +66,31 @@ def chk_sys_posture():
             platform_info()
             raise SystemExit
         else:
-            print 'Platform: Linux -- OK'; sleep(1)
-            print 'Distro: Ubuntu -- OK'; sleep(1)
+            print 'Platform: Linux  \t[OK]'; sleep(1)
+            print 'Distro: Ubuntu \t\t[OK]'; sleep(1)
             if sup_ver != get_ver:
-                print 'Highly Recommend: Using Ubuntu version %s' % sup_ver; sleep(1)
+                print '\nFor best perfomance: Recommend using version %s or higher...' % sup_ver; sleep(1)
             else:
-                print 'Ubuntu version: %s -- OK' % sup_ver; sleep(1)
+                print 'Version: %s \t\t[OK]' % sup_ver; sleep(1)
 
             if sup_arch != get_arch:
-                print 'Highly Recommend: Using a 64bit OS'; sleep(1)
+                print '\nFor best performance: Recommend using 64bit Operating System.'
+                print 'Current System Architecture: %s' % get_arch; sleep(1)
             else:
-                print 'Arch: 64bit -- OK'; sleep(1)
+                print 'Arch: 64bit \t\t[OK]'; sleep(1)
 
             if  get_cpu < sup_cpu :
-                print 'Highly Recommend +12 CPU Cores: You only have %s' % get_cpu; sleep(1)
+                print '\nFor best performance: A minimum of [12] CPU Cores needed. '
+                print 'You only have [%s]...' % get_cpu; sleep(1)
             else:
-                print 'CPU Cores %s -- OK' % get_cpu; sleep(1)
+                print 'CPU Cores [%s] \t\t[OK]' % get_cpu; sleep(1)
 
-            if   get_free_space < sup_kilo_cap :
-                print 'Low Disk Capcity: Minimum Free Space Should Be %s' % min_disk_size
-                sleep(1); get_capacity()
+            if   get_free_space < sup_free_space :
+                print '\nInstall may fail: A minimum of [%s] of free disk recommended...' % min_disk_size
+                print 'Current Diposition:\n'
+                get_capacity(); sleep(1)
             else:
-                print 'Free Space -- OK'; sleep(1); get_capacity()
+                print '\nFree Disk Space \t[OK]'; get_capacity(); sleep(1)
     else:
         print 'Cannot continue -- Linux Platform required...\n'
         raise SystemExit
