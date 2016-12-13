@@ -3,6 +3,7 @@
 import os
 import platform
 import commands
+import subprocess
 from time import sleep
 
 os.system('clear')
@@ -81,29 +82,89 @@ def chk_sys_posture():
     if get_arch == "x86_64":
         print 'Arch: 64bit \t\t\t\t[OK]'; sleep(1)
     else:
-        print '\nFor best performance: Recommend using 64bit Operating System.'
+        print '\nWARNING: Potential Performance Issues!'
+        print 'Recommend using 64bit Operating System.'
         print 'Current System Architecture: %s\n' % get_arch; sleep(1)
 
     if get_cpu < sup_cpu:
-        print '\nFor best performance: A minimum of [12] CPU Cores needed. '
+        print '\nWARNING: Potential Peformance Issues!'
+        print 'A minimum of [12] CPU Cores needed. '
         print 'You only have [%s]...\n' % get_cpu; sleep(1)
     else:
-        print 'CPU Cores [%s] \t\t\t\t[OK]' % get_cpu; sleep(1)
+        print 'CPU Cores [%s] \t\t\t[OK]' % get_cpu; sleep(1)
 
     if get_cpu_virt != 0:
         print "CPU Virtual Extensions: Present \t[OK]"; sleep(1)
     else:
-        print 'Install may fail: To run KVM, a processor that supports hardware virtualization is needed.'
-        print 'Try enabling virtual support within the BIOS...'; sleep(1)
+        print 'WARNING: Install May Fail!'
+        print 'To run KVM, a processor that supports hardware virtualization is needed.'
+        print 'Try enabling virtual support within the BIOS...'; sleep(3)
 
     if get_free_space < sup_free_space:
-        print '\nInstall may fail: A minimum of [%s] of free disk recommended...' % min_disk_size
+        print '\nWARNING: Install May Fail!'
+        print 'A minimum of [%s] of free disk recommended...' % min_disk_size
         get_capacity(); sleep(3)
     else:
-        print '\nFree Disk \t\t\t\t[OK]'; get_capacity(); sleep(3)
+        print '\nFree Disk \t\t\t\t[OK]'; get_capacity()
+
+def git_pkg_install():
+
+    git_repo = "pkgrepo/git-repo"
+    chk_git_pkg = 'which git'
+    git_ex_stat = commands.getstatusoutput(chk_git_pkg)[0]
+
+    print '\nEntering Package Deployment...\n'; sleep(3)
+
+    print 'Checking \"Git\" Installation...'
+    if git_ex_stat != 0:
+        print 'Package does not appear to be installed...'
+
+        print '\n*** Beginning Git Deployment ***\n'; sleep(3)
+        try:
+            subprocess.call("dpkg -i %s/*.deb" % git_repo, shell=True)
+        except:
+            print 'Cannot continue, package install failure!'
+            raise SystemExit
+        else:
+            print '\nGit Package Deployment: Succeeded\n'; sleep(3)
+    else:
+        print 'Nothing to do, package already installed...\n'
+
+
+def docker_pkg_install():
+    docker_repo = "pkgrepo/docker-repo/docker"
+    docker_auf_repo = "pkgrepo/docker-repo/auf_support"
+    chk_git_pkg = 'which docker'
+    getreturn = commands.getstatusoutput(chk_git_pkg)[0]
+
+    print 'Checking \"Docker\" Installation...'
+    if getreturn != 0:
+        print 'Package does not appear to be installed...'
+
+        # Installing AUF Storage Drivers for Docker "auf_tools"...
+        print '\n*** PREREQ: Installing AUF Storage Drivers for Docker ***\n\n'; sleep(3)
+        try:
+            subprocess.call("dpkg -i %s/*.deb" % docker_auf_repo, shell=True)
+        except:
+            print 'AUF Drivers -- FAILED. Expect virtual performance degrades...\n'; sleep(3)
+        else:
+             print '\nAUF Driver Deployment: Succeeded\n'; sleep(3)
+
+        print '\n*** Beginning Docker Deployment ***\n'; sleep(3)
+        try:
+            subprocess.call("dpkg -i %s/*.deb" % docker_repo, shell=True)
+        except:
+            print 'Cannot continue, package install failure!'
+            raise SystemExit
+        else:
+            print '\nDocker Package Deployment: Succeeded\n\n'; sleep(3)
+    else:
+        print 'Nothing to do, package already installed...\n\n'
 
 
 if __name__ == '__main__':
     chk_sys_posture()
+    git_pkg_install()
+    docker_pkg_install()
 
 
