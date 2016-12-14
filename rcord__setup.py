@@ -142,13 +142,13 @@ def docker_pkg_install():
         print 'Package does not appear to be installed...'
 
         # Installing AUF Storage Drivers for Docker "auf_tools"...
-        print '\n*** PREREQ: Installing AUF Storage Drivers for Docker ***\n\n'; sleep(3)
+        print '\n*** PREREQ: Installing AUFS Storage Drivers for Docker ***\n\n'; sleep(3)
         try:
             subprocess.call("dpkg -i %s/*.deb" % docker_auf_repo, shell=True)
         except:
-            print 'AUF Drivers -- FAILED. Expect virtual performance degrades...\n'; sleep(3)
+            print 'AUFS Drivers -- FAILED. Expect virtual performance degrades...\n'; sleep(3)
         else:
-             print '\nAUF Driver Deployment: SUCCEEDED\n'; sleep(3)
+             print '\nAUFS Driver Deployment: SUCCEEDED\n'; sleep(3)
 
         print '\n*** Beginning Docker Deployment ***\n'; sleep(3)
         try:
