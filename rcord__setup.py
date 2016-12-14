@@ -97,7 +97,7 @@ def chk_sys_posture():
         print "CPU Virtual Extensions: Present \t[OK]"; sleep(1)
     else:
         print 'WARNING: Install May Fail!'
-        print 'To run KVM, a processor that supports hardware virtualization is needed.'
+        print 'KVM needs a processor that supports hardware virtualization...'
         print 'Try enabling virtual support within the BIOS...'; sleep(3)
 
     if get_free_space < sup_free_space:
@@ -126,7 +126,7 @@ def git_pkg_install():
             print 'Cannot continue, package install failure!'
             raise SystemExit
         else:
-            print '\nGit Package Deployment: Succeeded\n'; sleep(3)
+            print '\nGit Package Deployment: SUCCEEDED\n'; sleep(3)
     else:
         print 'Nothing to do, package already installed...\n'
 
@@ -148,7 +148,7 @@ def docker_pkg_install():
         except:
             print 'AUF Drivers -- FAILED. Expect virtual performance degrades...\n'; sleep(3)
         else:
-             print '\nAUF Driver Deployment: Succeeded\n'; sleep(3)
+             print '\nAUF Driver Deployment: SUCCEEDED\n'; sleep(3)
 
         print '\n*** Beginning Docker Deployment ***\n'; sleep(3)
         try:
@@ -157,7 +157,7 @@ def docker_pkg_install():
             print 'Cannot continue, package install failure!'
             raise SystemExit
         else:
-            print '\nDocker Package Deployment: Succeeded\n\n'; sleep(3)
+            print '\nDocker Package Deployment: SUCCEEDED\n\n'; sleep(3)
     else:
         print 'Nothing to do, package already installed...\n\n'
 
