@@ -132,8 +132,9 @@ def git_pkg_install():
 
 
 def docker_pkg_install():
-    docker_repo = "pkgrepo/docker-repo/docker"
+
     docker_auf_repo = "pkgrepo/docker-repo/auf_support"
+    docker_repo = "pkgrepo/docker-repo/docker"
     chk_git_pkg = 'which docker'
     getreturn = commands.getstatusoutput(chk_git_pkg)[0]
 
