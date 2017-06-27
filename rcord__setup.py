@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+from collections import Counter
 import os
 import platform
 import commands
