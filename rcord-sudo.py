@@ -7,8 +7,6 @@ from shutil import copyfile
 from time import sleep
 from datetime import date
 
-print "Hello World!"
-
 os.system('clear')
 sys.tracebacklimit = 0
 
