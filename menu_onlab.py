@@ -74,15 +74,6 @@ def onlab_menu1():
 onlab_menu1()
 
 
-
-
-
-
-
-
-
-
-
 def main_menu_onlab():
 
     def add_ip_fn():
