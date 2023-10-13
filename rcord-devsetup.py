@@ -4,156 +4,144 @@
 import os
 import time
 import platform
-import commands
 import subprocess
+import logging
 
-os.system('clear')
-
-get_os = platform.linux_distribution()[0]
-get_ver = platform.linux_distribution()[1]
-get_arch = platform.processor()
-sup_arch = 'x86_64'
-sup_os = 'Ubuntu'
-sup_ver = '14.04'
-
+def clear_screen():
+    os.system('clear')
 
 def intro_dev():
+    welcome = """
+Radisy Corp.
+Welcome To Development Server Setup
+An RCORD-1.0 Product
+"""
+    clear_screen()
+    print('\n'.join('{:^95}'.format(s) for s in welcome.split('\n'))
+    time.sleep(3)
+    print("Checking System Posture...\n")
+    time.sleep(3)
 
-        welcome = "\nRadisy Corp.\nWelcome To Development Server Setup\nAn RCORD-1.0 Product\n"
-        print '\n'.join('{:^95}'.format(s) for s in welcome.split('\n'))
-        time.sleep(3)
+    sup_arch = 'x86_64'
+    sup_os = 'Ubuntu'
+    sup_ver = '14.04'
 
-        print "Checking System Posture...\n"
-        time.sleep(3)
-        if platform.system() == 'Linux':
-                if sup_os != get_os:
-                    print 'WARNING...'
-                    time.sleep(3)
-                    platform_info()
-                else:
-                    print 'Platform: Linux -- OK'
-                    print 'Distro: Ubuntu -- Ok'
-                    if sup_ver != get_ver:
-                        print 'Highly Recommend: Using Ubuntu version %s' % sup_ver
-                    else:
-                        print 'Ubuntu version: %s -- OK' % sup_ver
-                    if sup_arch != get_arch:
-                        print 'Highly Recommend: Using a 64bit OS\n'
-                    else:
-                        print 'Arch: 64bit -- OK\n'
+    get_os, get_ver, get_arch = get_system_info()
+
+    if platform.system() == 'Linux':
+        if sup_os != get_os:
+            print('WARNING...')
+            time.sleep(3)
+            platform_info()
         else:
-                print 'Cannot continue -- Linux Platform required...\n'
-                raise SystemExit
+            print('Platform: Linux -- OK')
+            print('Distro: Ubuntu -- OK')
+            if sup_ver != get_ver:
+                print(f'Highly Recommend: Using Ubuntu version {sup_ver}')
+            else:
+                print(f'Ubuntu version: {get_ver} -- OK')
+            if sup_arch != get_arch:
+                print('Highly Recommend: Using a 64bit OS\n')
+            else:
+                print('Arch: 64bit -- OK\n')
+    else:
+        print('Cannot continue -- Linux Platform required...\n')
+        raise SystemExit
+
+def get_system_info():
+    dist_info = platform.linux_distribution()
+    return dist_info[0], dist_info[1], platform.processor()
 
 def git_pkg_install():
+    git_repo = "pkgrepo/git-repo"
+    chk_git_pkg = 'which git'
 
-        git_repo = "pkgrepo/git-repo"
-        chk_git_pkg = 'which git'
-        getreturn = commands.getstatusoutput(chk_git_pkg)[0]
-
-        print 'Entering Package Deployment...\n'
+    if subprocess.getstatusoutput(chk_git_pkg)[0] != 0:
+        print('Package does not appear to be installed...')
+        print('Beginning Git Deployment...\n')
         time.sleep(3)
 
-        print 'Checking \"Git\" Installation...'
-        if getreturn != 0:
-            print 'Package does not appear to be installed...'
-
-            print 'Beginning Git Deployment...\n'
-            time.sleep(3)
-
-            try:
-                subprocess.call("dpkg -i %s/*.deb" % git_repo, shell=True)
-            except:
-                print 'Cannot continue, package install failure!'
-                raise SystemExit
-            else:
-                print '\nGit Package Deployment: Succeeded\n'
-                time.sleep(3)
+        try:
+            subprocess.call(f"dpkg -i {git_repo}/*.deb", shell=True)
+        except subprocess.CalledProcessError as e:
+            print(f'Failed to install Git: {e}')
+            raise SystemExit
         else:
-            print 'Nothing to do, package already installed...\n'
+            print('\nGit Package Deployment: Succeeded\n')
+            time.sleep(3)
+    else:
+        print('Nothing to do, package already installed...\n')
 
 def vag_pkg_install():
+    vag_repo = "pkgrepo/vagrant-repo"
+    chk_vag_pkg = 'which vagrant'
 
-        vag_repo = "pkgrepo/vagrant-repo"
-        chk_vag_pkg = 'which vagrant'
-        getreturn = commands.getstatusoutput(chk_vag_pkg)[0]
-
-        print 'Checking \"Vagrant\" Installation...'
+    if subprocess.getstatusoutput(chk_vag_pkg)[0] != 0:
+        print('Package does not appear to be installed...')
+        print('Beginning Vagrant Deployment...\n')
         time.sleep(3)
 
-        if getreturn != 0:
-            print 'Package does not appear to be installed...'
-
-            print 'Beginning Vagrant Deployment...\n'
-            time.sleep(3)
-            try:
-                subprocess.call("dpkg -i %s/*.deb" % vag_repo, shell=True)
-            except:
-                print 'Cannot continue, package install failure!'
-                raise SystemExit
-            else:
-                print '\nVagrant Package Deployment: Succeeded\n'
-                time.sleep(3)
+        try:
+            subprocess.call(f"dpkg -i {vag_repo}/*.deb", shell=True)
+        except subprocess.CalledProcessError as e:
+            print(f'Failed to install Vagrant: {e}')
+            raise SystemExit
         else:
-            print 'Nothing to do, package already installed...\n'
-
+            print('\nVagrant Package Deployment: Succeeded\n')
+            time.sleep(3)
+    else:
+        print('Nothing to do, package already installed...\n')
 
 def virtbx_pkg_install():
+    virtbx_repo = "pkgrepo/virtbx-repo"
+    chk_virtbx_pkg = 'which virtualbox'
 
-        virtbx_repo = "pkgrepo/virtbx-repo"
-        chk_virtbx_pkg = 'which virtualbox'
-        getreturn = commands.getstatusoutput(chk_virtbx_pkg)[0]
+    if subprocess.getstatusoutput(chk_virtbx_pkg)[0] != 0:
+        print('\nPackage does not appear to be installed...')
+        print('\nPlease be patient, this may take some time...\n')
 
-        print 'Checking \"VirtualBox\" Installation...'
-        time.sleep(3)
+        print('\nBeginning Virtualbox Deployment...\n')
+        time.sleep(5)
 
-        if getreturn != 0:
-            print '\nPackage does not appear to be installed...'
-            print '\nPlease be patient, this may take some time...\n'
-
-            print '\nBeginning Virtualbox Deployment...\n'
-            time.sleep(5)
-
-            try:
-                subprocess.call("dpkg -i %s/*.deb" % virtbx_repo, shell=True)
-            except:
-                print 'Cannot continue, package install failure!\n'
-                raise SystemExit
-            else:
-                print '\n Virtualbox Package Deployment: Succeeded\n'
-                time.sleep(3)
+        try:
+            subprocess.call(f"dpkg -i {virtbx_repo}/*.deb", shell=True)
+        except subprocess.CalledProcessError as e:
+            print(f'Failed to install VirtualBox: {e}\n')
+            raise SystemExit
         else:
-            print 'Nothing to do, package already installed...\n'
-
+            print('\nVirtualBox Package Deployment: Succeeded\n')
+            time.sleep(3)
+    else:
+        print('Nothing to do, package already installed...\n')
 
 def platform_info():
+    get_os, get_ver, get_arch = get_system_info()
 
-    print """
+    print(f"""
      Current System:
      ---------------
-     Distro: %s
-     Version: %s
-     Arch: %s
-     """ % (
-        get_os,
-        get_ver,
-        get_arch)
+     Distro: {get_os}
+     Version: {get_ver}
+     Arch: {get_arch}
+    """)
 
-    print """
+    print(f"""
      Recommended System:
      -------------------
-     Distro: %s
-     Version: %s
-     Arch: %s
-     """ % (
-        sup_os,
-        sup_ver,
-        sup_arch)
+     Distro: {sup_os}
+     Version: {sup_ver}
+     Arch: {sup_arch}
+    """)
 
-
-if __name__=='main':
-    intro_dev()
-    git_pkg_install()
-    vag_pkg_install()
-    virtbx_pkg_install()
-
+if __name__ == '__main__':
+    logging.basicConfig(filename='setup.log', level=logging.INFO)
+    
+    try:
+        intro_dev()
+        git_pkg_install()
+        vag_pkg_install()
+        virtbx_pkg_install()
+    except SystemExit:
+        logging.error('Setup process terminated with an error.')
+    else:
+        logging.info('Setup process completed successfully.')
